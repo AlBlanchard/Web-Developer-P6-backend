@@ -1,0 +1,27 @@
+{
+  "name": "web-developer-p6-backend",
+  "version": "1.0.0",
+  "description": "P6 du parcours OC",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlBlanchard/Web-Developer-P6-backend.git"
+  },
+  "author": "Alexis Blanchard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlBlanchard/Web-Developer-P6-backend/issues"
+  },
+  "homepage": "https://github.com/AlBlanchard/Web-Developer-P6-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2",
+    "mongoose-unique-validator": "^3.1.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
