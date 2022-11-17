@@ -4,10 +4,15 @@ const mongoose = require('mongoose');
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 
-mongoose.connect('mongodb+srv://Temeria:uyB5fWfLwX6-4K-@projet6.aphdccq.mongodb.net/?retryWrites=true&w=majority',
+const userMongoUri = process.env.MONGO_URI;
+console.log(process.env.MONGO_URI)
+
+
+mongoose.connect(userMongoUri,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
