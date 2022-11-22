@@ -103,7 +103,7 @@ exports.likeState = (req, res, next) => {
       if (req.body.userId != req.auth.userId) {
         res.status(401).json({message: 'Non autorisé'});
       } else {
-        const likeReq = req.body.like;
+
         const userIdReq = req.body.userId;
 
         switch (req.body.like) {
