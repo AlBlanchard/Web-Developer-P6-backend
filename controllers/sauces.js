@@ -21,7 +21,7 @@ exports.createSauce = (req, res, next) => {
 };
 
 
-// Envoie des données d'une sauce
+// Envoi des données d'une sauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => res.status(200).json(sauce))
@@ -29,7 +29,7 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 
-// Envoie de toutes les sauces
+// Envoi de toutes les sauces
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then(sauces => res.status(200).json(sauces))
@@ -106,23 +106,26 @@ exports.likeState = (req, res, next) => {
         const likeReq = req.body.like;
         const userIdReq = req.body.userId;
 
-        if (likeReq === 1) {
+        switch (req.body.like) {
+        case 1 :
           Sauce.updateOne(
             { _id: req.params.id }, 
             { $addToSet:{ usersLiked: userIdReq }, $set: { likes: (sauce.usersLiked.length + 1)}}
             )
             .then(() => { res.status(200).json({message: 'Like ajouté'})})
             .catch(error => res.status(400).json({ error }));
+        break;
 
-        } else if (likeReq === -1) {
+        case -1 :
           Sauce.updateOne(
             { _id: req.params.id },
             { $addToSet:{ usersDisliked: userIdReq }, $set: { dislikes: (sauce.usersDisliked.length + 1)}}
             )
             .then(() => { res.status(200).json({message: 'Dislike ajouté'})})
             .catch(error => res.status(400).json({ error }));
+        break;
 
-        } else if (likeReq === 0) {
+        default :
           if (sauce.usersLiked.includes(userIdReq)) {
             Sauce.updateOne(
               { _id: req.params.id }, 
@@ -142,9 +145,6 @@ exports.likeState = (req, res, next) => {
           } else {
             res.status(400).json({ error });
           }
-        } else {
-          res.status(400).json({ error });
-
         }
       }
     });
