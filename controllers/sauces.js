@@ -45,13 +45,13 @@ exports.modifySauce = (req, res, next) => {
   } : { ...req.body };
 
   delete sauceObject._userId;
+
   Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
           if (sauce.userId != req.auth.userId) {
             res.status(403).json({ message : 'Non autorisé'});
 
           } else {
-
             // S'il y a modification de l'image, suppression de l'ancienne image dans le dossier
             if (req.file) {
               const filename = sauce.imageUrl.split('/images/')[1];
@@ -70,7 +70,7 @@ exports.modifySauce = (req, res, next) => {
           }
       })
       .catch((error) => {
-          res.status(400).json({ error });
+          res.status(404).json({ error });
       });
 };
 
@@ -81,6 +81,7 @@ exports.deleteSauce = (req, res, next) => {
     .then(sauce => {
       if (sauce.userId != req.auth.userId) {
           res.status(403).json({message: 'Non autorisé'});
+
       } else {
           const filename = sauce.imageUrl.split('/images/')[1];
           fs.unlink(`images/${filename}`, () => {
@@ -91,7 +92,7 @@ exports.deleteSauce = (req, res, next) => {
       }
     })
     .catch( error => {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     });
 };
 
@@ -102,8 +103,8 @@ exports.likeState = (req, res, next) => {
     .then(sauce => {
       if (req.body.userId != req.auth.userId) {
         res.status(403).json({message: 'Non autorisé'});
-      } else {
 
+      } else {
         const userIdReq = req.body.userId;
 
         switch (req.body.like) {
@@ -147,5 +148,8 @@ exports.likeState = (req, res, next) => {
           }
         }
       }
+    })
+    .catch( error => {
+        res.status(404).json({ error });
     });
 };
